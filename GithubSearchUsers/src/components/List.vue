@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="card" v-for="item,index in infoList" :key="index">
+        <div class="card" v-for="item in infoList" :key="item.login">
             <a :href="item.html_url" target="_blank">
                 <img :src="item.avatar_url" style='width: 100px'/>
             </a>
