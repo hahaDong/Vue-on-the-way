@@ -1,11 +1,18 @@
 <template>
     <div class="row">
-        <div class="card" v-for="item in infoList" :key="item.login">
+        <!-- 展示用户列表信息 -->
+        <div v-show="info.infoList.length" class="card" v-for="item in info.infoList" :key="item.login">
             <a :href="item.html_url" target="_blank">
                 <img :src="item.avatar_url" style='width: 100px'/>
             </a>
             <p class="card-text">{{item.login}}</p>
         </div>
+        <!-- 展示欢迎词 -->
+        <h1 v-show="info.isFirst">欢迎使用！</h1>
+        <!-- 展示加载中 -->
+        <h1 v-show="info.isLoading">加载中...</h1>
+        <!-- 展示错误信息 -->
+        <h1 v-show="info.errMsg">{{info.errMsg}}</h1>
     </div>
 </template>
 
@@ -16,16 +23,17 @@
         name:"List",
         data() {
             return {
-                infoList:[]
+                info:{
+                    isFirst:true,
+                    isLoading:false,
+                    errMsg:"",
+                    infoList:[]
+                }
             }
         },
-        methods: {
-            
-        },
         mounted() {
-            this.$bus.$on("sendData",(data)=>{
-                console.log("hahaha",data)
-                this.infoList = data
+            this.$bus.$on("sendData",(dataObj)=>{
+                this.info = {...this.info,...dataObj}
             })
         },
     }

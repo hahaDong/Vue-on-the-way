@@ -20,13 +20,13 @@
         },
         methods: {
             getInfo(){
+                this.$bus.$emit("sendData",{isFirst:false,isLoading:true,errMsg:'',infoList:[]})
                 axios.get(`https://api.github.com/search/users?q=${this.keyWord}`).then(
                     response => {
-                        console.log(response.data.items)
-                        this.$bus.$emit("sendData",response.data.items)
+                        this.$bus.$emit("sendData",{isLoading:false,errMsg:'',infoList:response.data.items})
                     },
                     error => {
-                        console.log(error.message)
+                        this.$bus.$emit("sendData",{isLoading:false,errMsg:error.message,infoList:[]})
                     }
                 )
                 this.keyWord = ""
